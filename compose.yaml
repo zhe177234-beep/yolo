@@ -1,0 +1,15 @@
+services:
+  studio:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      YOLO_API_KEY: ${YOLO_API_KEY:-}
+      YOLO_DEVICE: cpu
+      YOLO_MAX_UPLOAD_MB: 100
+      YOLO_MAX_VIDEO_SECONDS: 60
+    volumes:
+      - yolo-data:/app/data
+    restart: unless-stopped
+volumes:
+  yolo-data:

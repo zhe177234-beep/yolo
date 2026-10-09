@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0d1117"><title>YOLO · 智能视觉工作台</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="YOLO 首页"><span class="logo">Y</span><span>YOLO<small>VISION STUDIO</small></span></a>
+  <div class="nav-label">工作空间</div><a class="nav active" href="#workspace">◈ <span>目标检测</span><span class="nav-dot"></span></a><a class="nav" href="#history">◷ <span>检测记录</span></a>
+  <div class="sidebar-card"><span class="eyebrow">从看见，到理解</span><p>给图像中的每个目标<br>一个清晰的答案。</p><div class="mini-grid"><i></i><i></i><i></i><i></i></div></div>
+  <a class="source-link" href="https://github.com/zhe177234-beep/yolo" target="_blank" rel="noopener">↗ GitHub 项目源码</a><div class="side-footer">YOLO VISION STUDIO <span>v1.0</span></div>
+</aside>
+<main id="workspace">
+  <header><span class="breadcrumb">工作空间 <b>/</b> 目标检测</span><span class="connection" id="connection">连接中</span></header>
+  <section class="intro"><div><div class="eyebrow">SEE MORE. UNDERSTAND MORE.</div><h1>让每个目标，<span>被看见。</span></h1><p>上传图片或视频，让 YOLO 为你识别、定位并统计画面中的目标。</p></div><div class="version-chip">◈ <span>YOLO11<small>轻量模型 · 本地推理</small></span></div></section>
+  <div class="workspace-grid">
+    <section class="panel input-panel"><div class="panel-title"><h2>01 <span>输入与设置</span></h2><span class="tag">图片 / 视频</span></div>
+      <label id="dropzone" class="dropzone" tabindex="0"><input id="file" type="file" accept=".jpg,.jpeg,.png,.webp,.mp4,.mov,.avi" hidden><span class="upload-symbol">↑</span><strong id="file-label">拖拽文件到这里</strong><span id="file-detail">或点击选择图片 / 视频</span><small id="upload-limit">JPG · PNG · WebP · MP4 · MOV · AVI</small></label>
+      <div class="field"><label for="preset">检测场景</label><select id="preset"><option value="all">全部目标 · COCO 80 类</option><option value="traffic">交通场景 · 行人和车辆</option><option value="people">行人检测 · Person</option></select></div>
+      <div class="field"><label for="confidence">置信度阈值 <output id="confidence-label">0.35</output></label><input id="confidence" type="range" min="0.05" max="0.95" step="0.05" value="0.35"><div class="range-label"><span>更多目标</span><span>更高确定性</span></div></div>
+      <details class="auth"><summary>访问密钥</summary><label for="api-key">服务开启鉴权时填写，仅保留在当前标签页</label><input id="api-key" type="password" placeholder="X-API-Key" autocomplete="off"></details>
+      <button id="run" class="primary">开始检测 <span>↗</span></button><p class="input-note">原文件在任务结束后自动清理，结果可手动删除。</p>
+    </section>
+    <section class="panel result-panel"><div class="panel-title"><h2>02 <span>检测结果</span></h2><span id="result-state" class="tag">等待输入</span></div>
+      <div class="viewer" id="viewer"><div class="empty-state"><div class="target-icon"><i></i></div><h3>下一次洞察，从这里开始</h3><p>选择文件并开始检测<br>标注画面和目标统计将在这里呈现</p><span>IMAGE → YOLO → INSIGHT</span></div></div>
+      <div class="progress-area" id="progress-area" hidden><div><span id="progress-text">等待执行</span><span id="progress-value">0%</span></div><progress id="progress" max="100" value="0"></progress></div>
+      <div class="metrics"><div><span id="total">—</span><small id="total-label">目标数量</small></div><div><span id="classes">—</span><small>目标类别</small></div><div><span id="elapsed">—</span><small>处理耗时 / 秒</small></div><div><span id="resolution">—</span><small>输出分辨率</small></div></div>
+      <div class="result-bottom"><div id="counts" class="counts"><span class="muted">完成检测后查看分类统计</span></div><div id="downloads" class="downloads" hidden><button data-file="artifact">标注文件 ↓</button><button data-file="detections.csv">CSV ↓</button><button data-file="report.json">JSON ↓</button></div></div>
+    </section>
+  </div>
+  <section class="panel history-panel" id="history"><div class="panel-title"><h2>03 <span>最近检测</span></h2><button class="text-button" id="refresh">刷新记录 ↻</button></div><div class="table-wrap"><table><thead><tr><th>文件</th><th>类型</th><th>状态</th><th>目标 / 峰值和</th><th>提交时间</th><th>操作</th></tr></thead><tbody id="history-body"><tr><td colspan="6" class="empty-history">还没有检测记录，上传你的第一个文件吧。</td></tr></tbody></table></div></section>
+  <footer><span>本地模型推理 · 结果由你掌握</span><span>视频按类别统计单帧峰值，未进行跨帧身份去重。</span></footer>
+</main><div id="toast" role="status" hidden></div><script src="/app.js"></script>
+</body></html>

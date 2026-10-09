@@ -1,0 +1,7 @@
+# 将 path 替换为数据集绝对路径。类别编号必须与标签文件一致。
+path: /absolute/path/to/dataset
+train: images/train
+val: images/val
+names:
+  0: helmet
+  1: no_helmet

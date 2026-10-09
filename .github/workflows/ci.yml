@@ -1,0 +1,41 @@
+name: Quality and real inference
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install CPU runtime
+        run: pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: pytest -q
+      - name: Download official weights
+        run: python scripts/setup_model.py
+      - name: Check real image and video inference
+        run: python -m scripts.smoke_test
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build deployment image
+        run: docker build -t yolo-studio:ci .
+      - name: Check running container
+        run: |
+          docker run -d --name studio -p 8000:8000 yolo-studio:ci
+          for i in $(seq 1 30); do
+            if curl --fail http://localhost:8000/api/health; then exit 0; fi
+            sleep 2
+          done
+          docker logs studio
+          exit 1
